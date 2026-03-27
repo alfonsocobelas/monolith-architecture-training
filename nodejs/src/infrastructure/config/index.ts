@@ -4,7 +4,7 @@ const config = convict({
   env: {
     doc: 'The application environment.',
     format: ['prod', 'dev', 'qa', 'test', 'local'],
-    default: 'dev',
+    default: 'local',
     env: 'NODE_ENV'
   },
   port: {

@@ -42,8 +42,9 @@
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "typeorm:migration:generate": "NODE_ENV=local npm run typeorm migration:generate -- -d ./src/infrastructure/persistence/typeorm/typeorm-data-source.ts",
     "typeorm:migration:create": "NODE_ENV=local npm run typeorm migration:create",
-    "typeorm:migration:run": "npm run typeorm migration:run -- -d ./src/infrastructure/persistence/typeorm/typeorm-data-source.ts",
-    "typeorm:migration:rollback": "npm run typeorm migration:revert -- -d ./src/infrastructure/persistence/typeorm/typeorm-data-source.ts",
+    "typeorm:migration:run:local": "NODE_ENV=local npm run typeorm migration:run -- -d ./src/infrastructure/persistence/typeorm/typeorm-data-source.ts",
+    "typeorm:migration:run": "NODE_ENV=prod npm run typeorm migration:run -- -d ./src/infrastructure/persistence/typeorm/typeorm-data-source.ts",
+    "typeorm:migration:rollback": "NODE_ENV=prod npm run typeorm migration:revert -- -d ./src/infrastructure/persistence/typeorm/typeorm-data-source.ts",
     "audit": "npm audit",
     "audit:fix": "npm audit fix",
     "audit:ci": "npm audit --audit-level=high"

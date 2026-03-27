@@ -1,0 +1,6 @@
+export enum AircraftModelStatus {
+  DRAFT = 'DRAFT',
+  WITHDRAW = 'WITHDRAW',
+  OPERATIONAL = 'OPERATIONAL',
+  DECOMMISSIONED = 'DECOMMISSIONED'
+}

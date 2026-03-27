@@ -1,0 +1,4 @@
+export const FLEET_CONSTRAINTS = {
+  NAME: { MIN_LENGTH: 2, MAX_LENGTH: 100 },
+  MAINTENANCE_BUDGET: { MIN: 0, MAX: 1000000 }
+} as const

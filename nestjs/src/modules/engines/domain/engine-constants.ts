@@ -1,0 +1,9 @@
+export const ENGINE_CONSTRAINTS = {
+  SERIAL_NUMBER: { MIN_LENGTH: 2, MAX_LENGTH: 50 },
+  HEALTH_SCORE: { MIN: 60, MAX: 100 }
+} as const
+
+export const ENGINE_DEFAULTS = {
+  FLYING_HOURS: 0,
+  CYCLES_SINCE_LAST_OVERHAUL: 0
+} as const

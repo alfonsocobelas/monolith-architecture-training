@@ -1,0 +1,16 @@
+services:
+    EntryPoints.Controllers.IssuePostController:
+      class: ../../../entrypoints/controllers/issues/issue-post.controller
+      arguments: [
+        '@Issues.Application.Create.RegisterIssueUseCase'
+      ]
+    EntryPoints.Controllers.IssueGetByIdController:
+      class: ../../../entrypoints/controllers/issues/issue-get-by-id.controller
+      arguments: [
+        '@Issues.Application.Find.GetIssueUseCase'
+      ]
+    EntryPoints.Controllers.IssueGetController:
+      class: ../../../entrypoints/controllers/issues/issue-get.controller
+      arguments: [
+        '@Issues.Application.Paginate.SearchIssuesUseCase'
+      ]

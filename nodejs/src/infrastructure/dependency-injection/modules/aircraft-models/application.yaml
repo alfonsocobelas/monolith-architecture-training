@@ -1,0 +1,27 @@
+services:
+  AircraftModels.Domain.AircraftModelRepository:
+    class: ../../../../modules/aircraft-models/infrastructure/typeorm/typeorm-aircraft-model.repository
+    arguments: [
+      '@ConnectionManager'
+    ]
+  AircraftModels.Application.Create.RegisterAircraftModelUseCase:
+    class: ../../../../modules/aircraft-models/application/create/register-aircraft-model-usecase.service
+    arguments: [
+      '@AircraftModels.Domain.AircraftModelRepository'
+    ]
+  AircraftModels.Application.Find.GetAircraftModelUseCase:
+    class: ../../../../modules/aircraft-models/application/find/get-aircraft-model-usecase.service
+    arguments: [
+      '@AircraftModels.Domain.AircraftModelRepository'
+    ]
+  AircraftModels.Application.Find.ListAircraftModelCatalogueUseCase:
+    class: ../../../../modules/aircraft-models/application/find/list-aircraft-model-catalogue-usecase.service
+    arguments: [
+      '@AircraftModels.Domain.AircraftModelRepository'
+    ]
+  AircraftModels.Application.Delete.RemoveAircraftModelUseCase:
+    class: ../../../../modules/aircraft-models/application/delete/remove-aircraft-model-usecase.service
+    arguments: [
+      '@AircraftModels.Domain.AircraftModelRepository',
+      '@Aircrafts.Domain.AircraftRepository'
+    ]

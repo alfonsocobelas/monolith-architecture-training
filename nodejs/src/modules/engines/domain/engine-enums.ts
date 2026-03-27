@@ -1,0 +1,4 @@
+export enum EngineStatus {
+  OPERATIONAL = 'OPERATIONAL',
+  MAINTENANCE = 'MAINTENANCE'
+}

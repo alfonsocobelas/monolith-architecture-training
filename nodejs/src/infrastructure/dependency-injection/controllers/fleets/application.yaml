@@ -1,0 +1,16 @@
+services:
+    EntryPoints.Controllers.FleetPostController:
+      class: ../../../entrypoints/controllers/fleets/fleet-post.controller
+      arguments: [
+        '@Fleets.Application.Create.RegisterFleetUseCase'
+      ]
+    EntryPoints.Controllers.FleetGetByIdController:
+      class: ../../../entrypoints/controllers/fleets/fleet-get-by-id.controller
+      arguments: [
+        '@Fleets.Application.Find.GetFleetUseCase'
+      ]
+    EntryPoints.Controllers.FleetGetController:
+      class: ../../../entrypoints/controllers/fleets/fleet-get.controller
+      arguments: [
+        '@Fleets.Application.Paginate.SearchFleetsUseCase'
+      ]

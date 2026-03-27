@@ -1,0 +1,13 @@
+{
+  "typeorm": {
+    "host": "localhost",
+    "port": 5432,
+    "username": "sheriff",
+    "password": "sup3rs3cr3t",
+    "database": "monolith-arch-nodejs-test",
+    "synchronize": false,
+    "dropSchema": false,
+    "logging": false,
+    "migrationsRun": true
+  }
+}

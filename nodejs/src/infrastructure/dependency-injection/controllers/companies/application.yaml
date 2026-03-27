@@ -1,0 +1,16 @@
+services:
+    EntryPoints.Controllers.CompanyPostController:
+      class: ../../../entrypoints/controllers/companies/company-post.controller
+      arguments: [
+        '@Companies.Application.Create.RegisterCompanyUseCase'
+      ]
+    EntryPoints.Controllers.CompanyGetByIdController:
+      class: ../../../entrypoints/controllers/companies/company-get-by-id.controller
+      arguments: [
+        '@Companies.Application.Find.GetCompanyUseCase'
+      ]
+    EntryPoints.Controllers.CompanyDeleteController:
+      class: ../../../entrypoints/controllers/companies/company-delete.controller
+      arguments: [
+        '@Companies.Application.Delete.RemoveCompanyUseCase'
+      ]

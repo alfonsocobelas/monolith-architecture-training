@@ -1,0 +1,21 @@
+services:
+    Engines.Domain.EngineRepository:
+      class: ../../../../modules/engines/infrastructure/typeorm/typeorm-engine.repository
+      arguments: [
+        '@ConnectionManager'
+      ]
+    Engines.Application.Create.RegisterEngineUseCase:
+      class: ../../../../modules/engines/application/create/register-engine-usecase.service
+      arguments: [
+        '@Engines.Domain.EngineRepository'
+      ]
+    Engines.Application.Find.GetEngineUseCase:
+      class: ../../../../modules/engines/application/find/get-engine-usecase.service
+      arguments: [
+        '@Engines.Domain.EngineRepository'
+      ]
+    Engines.Application.Paginate.SearchEnginesUseCase:
+      class: ../../../../modules/engines/application/paginate/search-engines-usecase.service
+      arguments: [
+        '@Engines.Domain.EngineRepository'
+      ]

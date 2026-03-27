@@ -1,0 +1,4 @@
+export const ISSUE_CONSTRAINTS = {
+  CODE: { MIN_LENGTH: 2, MAX_LENGTH: 20 },
+  DESCRIPTION: { MIN_LENGTH: 2, MAX_LENGTH: 500 }
+} as const

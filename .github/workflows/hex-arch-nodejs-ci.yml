@@ -1,0 +1,155 @@
+name: Monolith Arch Node.js CI
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'nodejs/**'
+      - '.github/workflows/monolith-arch-nodejs-ci.yml'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'nodejs/**'
+      - '.github/workflows/monolith-arch-nodejs-ci.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22.x, 24.x]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Cache npm
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('nodejs/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: nodejs/node_modules
+          key: ${{ runner.os }}-modules-${{ hashFiles('nodejs/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-modules-
+      - name: Cache dist and tsbuildinfo
+        uses: actions/cache@v3
+        with:
+          path: |
+            nodejs/dist
+            nodejs/**/.tsbuildinfo
+          key: ${{ runner.os }}-dist-${{ hashFiles('nodejs/tsconfig*.json', 'nodejs/src/**/*.ts') }}
+          restore-keys: |
+            ${{ runner.os }}-dist-
+      - name: Upgrade npm version
+        run: npm install -g npm@10.9.3
+      - name: Install dependencies
+        run: npm install
+        working-directory: nodejs
+      - name: Execute build and lint
+        run: |
+          npm run build --if-present
+          npm run lint
+        working-directory: nodejs
+
+  unit-tests:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22.x, 24.x]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Restore node_modules cache
+        uses: actions/cache@v3
+        with:
+          path: nodejs/node_modules
+          key: ${{ runner.os }}-modules-${{ hashFiles('nodejs/package-lock.json') }}
+      - name: Install dependencies
+        run: npm install --prefer-offline
+        working-directory: nodejs
+      - name: Run unit tests
+        run: npm run test:unit
+        working-directory: nodejs
+
+  integration-tests:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22.x, 24.x]
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: sheriff
+          POSTGRES_PASSWORD: sup3rs3cr3t
+          POSTGRES_DB: monolith-arch-nodejs-test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U sheriff"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}    
+      - name: Restore node_modules cache
+        uses: actions/cache@v3
+        with:
+          path: nodejs/node_modules
+          key: ${{ runner.os }}-modules-${{ hashFiles('nodejs/package-lock.json') }}
+      - name: Run integration tests
+        run: npm run test:integration
+        working-directory: nodejs
+
+  acceptance-tests:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22.x, 24.x]
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: sheriff
+          POSTGRES_PASSWORD: sup3rs3cr3t
+          POSTGRES_DB: monolith-arch-nodejs-test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U sheriff"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Restore node_modules cache
+        uses: actions/cache@v3
+        with:
+          path: nodejs/node_modules
+          key: ${{ runner.os }}-modules-${{ hashFiles('nodejs/package-lock.json') }}
+      - name: Run acceptance tests
+        run: npm run test:acceptance
+        working-directory: nodejs

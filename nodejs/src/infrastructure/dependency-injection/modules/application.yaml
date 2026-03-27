@@ -1,0 +1,24 @@
+imports:
+  - { resource: ./aircraft-models/application.yaml }
+  - { resource: ./aircrafts/application.yaml }
+  - { resource: ./companies/application.yaml }
+  - { resource: ./engines/application.yaml }
+  - { resource: ./fleets/application.yaml }
+  - { resource: ./issues/application.yaml }
+
+services:
+  TypeOrmConfig:
+    factory:
+      class: ../../persistence/typeorm/typeorm-config.factory
+      method: 'createConfig'
+
+  ConnectionManager:
+    factory:
+      class: ../../persistence/typeorm/typeorm-client.factory
+      method: 'createClient'
+    arguments: [
+      'monolith-arch-nodejs',
+      '@TypeOrmConfig'
+    ]
+
+

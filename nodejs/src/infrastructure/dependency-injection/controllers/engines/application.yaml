@@ -1,0 +1,16 @@
+services:
+    EntryPoints.Controllers.EnginePostController:
+      class: ../../../entrypoints/controllers/engines/engine-post.controller
+      arguments: [
+        '@Engines.Application.Create.RegisterEngineUseCase'
+      ]
+    EntryPoints.Controllers.EngineGetByIdController:
+      class: ../../../entrypoints/controllers/engines/engine-get-by-id.controller
+      arguments: [
+        '@Engines.Application.Find.GetEngineUseCase'
+      ]
+    EntryPoints.Controllers.EngineGetController:
+      class: ../../../entrypoints/controllers/engines/engine-get.controller
+      arguments: [
+        '@Engines.Application.Paginate.SearchEnginesUseCase'
+      ]

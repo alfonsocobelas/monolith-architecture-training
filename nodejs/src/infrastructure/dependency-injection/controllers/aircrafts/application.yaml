@@ -1,0 +1,36 @@
+services:
+    EntryPoints.Controllers.AircraftPostController:
+      class: ../../../entrypoints/controllers/aircrafts/aircraft-post.controller
+      arguments: [
+        '@Aircrafts.Application.Create.RegisterAircraftUseCase'
+      ]
+    EntryPoints.Controllers.AircraftGetByIdController:
+      class: ../../../entrypoints/controllers/aircrafts/aircraft-get-by-id.controller
+      arguments: [
+        '@Aircrafts.Application.Find.GetAircraftUseCase'
+      ]
+    EntryPoints.Controllers.AircraftGetController:
+      class: ../../../entrypoints/controllers/aircrafts/aircraft-get.controller
+      arguments: [
+        '@Aircrafts.Application.Paginate.SearchAircraftsUseCase'
+      ]
+    EntryPoints.Controllers.AircraftDeleteController:
+      class: ../../../entrypoints/controllers/aircrafts/aircraft-delete.controller
+      arguments: [
+        '@Aircrafts.Application.Delete.RemoveAircraftUseCase'
+      ]
+    EntryPoints.Controllers.AircraftGetMaintenanceController:
+      class: ../../../entrypoints/controllers/aircrafts/aircraft-get-maintenance.controller
+      arguments: [
+        '@Aircrafts.Application.Find.GetAircraftsInMaintenanceUseCase'
+      ]
+    EntryPoints.Controllers.AircraftInstallEngineController:
+      class: ../../../entrypoints/controllers/aircrafts/aircraft-post-install-engine.controller
+      arguments: [
+        '@Aircrafts.Application.Update.InstallEngineInAircraftUseCase'
+      ]
+    EntryPoints.Controllers.AircraftUninstallEngineController:
+      class: ../../../entrypoints/controllers/aircrafts/aircraft-post-uninstall-engine.controller
+      arguments: [
+        '@Aircrafts.Application.Update.RemoveEngineFromAircraftUseCase'
+      ]

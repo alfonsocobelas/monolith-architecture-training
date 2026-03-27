@@ -1,0 +1,21 @@
+# compiled output
+dist/
+node_modules/
+logs/
+
+# cache docker
+data/
+
+# cache jest
+.tmp/jestCache/
+
+# coverage tests
+coverage/
+.nyc_output/
+
+# environment files
+.env
+.env.*
+
+# OS
+.DS_Store

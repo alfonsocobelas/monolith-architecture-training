@@ -1,0 +1,21 @@
+services:
+    Companies.Domain.CompanyRepository:
+      class: ../../../../modules/companies/infrastructure/typeorm/typeorm-company.repository
+      arguments: [
+        '@ConnectionManager'
+      ]
+    Companies.Application.Create.RegisterCompanyUseCase:
+      class: ../../../../modules/companies/application/create/register-company-usecase.service
+      arguments: [
+        '@Companies.Domain.CompanyRepository'
+      ]
+    Companies.Application.Find.GetCompanyUseCase:
+      class: ../../../../modules/companies/application/find/get-company-usecase.service
+      arguments: [
+        '@Companies.Domain.CompanyRepository'
+      ]
+    Companies.Application.Delete.RemoveCompanyUseCase:
+      class: ../../../../modules/companies/application/delete/remove-company-usecase.service
+      arguments: [
+        '@Companies.Domain.CompanyRepository'
+      ]

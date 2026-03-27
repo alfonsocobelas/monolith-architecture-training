@@ -1,0 +1,7 @@
+imports:
+  - { resource: ./application.yaml }
+
+services:
+  EnvironmentArranger:
+    class: ../../../tests/infrastructure/arranger/typeorm/typeorm-environment-arranger
+    arguments: ['@ConnectionManager']

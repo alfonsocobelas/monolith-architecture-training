@@ -1,0 +1,22 @@
+services:
+    Fleets.Domain.FleetRepository:
+      class: ../../../../modules/fleets/infrastructure/typeorm/typeorm-fleet.repository
+      arguments: [
+        '@ConnectionManager'
+      ]
+    Fleets.Application.Create.RegisterFleetUseCase:
+      class: ../../../../modules/fleets/application/create/register-fleet-usecase.service
+      arguments: [
+        '@Fleets.Domain.FleetRepository',
+        '@Aircrafts.Domain.AircraftRepository',
+      ]
+    Fleets.Application.Find.GetFleetUseCase:
+      class: ../../../../modules/fleets/application/find/get-fleet-usecase.service
+      arguments: [
+        '@Fleets.Domain.FleetRepository'
+      ]
+    Fleets.Application.Paginate.SearchFleetsUseCase:
+      class: ../../../../modules/fleets/application/paginate/search-fleets-usecase.service
+      arguments: [
+        '@Fleets.Domain.FleetRepository'
+      ]

@@ -1,0 +1,21 @@
+services:
+    Issues.Domain.IssueRepository:
+      class: ../../../../modules/issues/infrastructure/typeorm/typeorm-issue.repository
+      arguments: [
+        '@ConnectionManager'
+      ]
+    Issues.Application.Create.RegisterIssueUseCase:
+      class: ../../../../modules/issues/application/create/register-issue-usecase.service
+      arguments: [
+        '@Issues.Domain.IssueRepository'
+      ]
+    Issues.Application.Find.GetIssueUseCase:
+      class: ../../../../modules/issues/application/find/get-issue-usecase.service
+      arguments: [
+        '@Issues.Domain.IssueRepository'
+      ]
+    Issues.Application.Paginate.SearchIssuesUseCase:
+      class: ../../../../modules/issues/application/paginate/search-issues-usecase.service
+      arguments: [
+        '@Issues.Domain.IssueRepository'
+      ]

@@ -1,0 +1,21 @@
+services:
+    EntryPoints.Controllers.AircraftModelPostController:
+      class: ../../../entrypoints/controllers/aircraft-models/aircraft-model-post.controller
+      arguments: [
+        '@AircraftModels.Application.Create.RegisterAircraftModelUseCase'
+      ]
+    EntryPoints.Controllers.AircraftModelGetByIdController:
+      class: ../../../entrypoints/controllers/aircraft-models/aircraft-model-get-by-id.controller
+      arguments: [
+        '@AircraftModels.Application.Find.GetAircraftModelUseCase'
+      ]
+    EntryPoints.Controllers.AircraftModelGetCatalogueController:
+      class: ../../../entrypoints/controllers/aircraft-models/aircraft-model-get-catalogue.controller
+      arguments: [
+        '@AircraftModels.Application.Find.ListAircraftModelCatalogueUseCase'
+      ]
+    EntryPoints.Controllers.AircraftModelDeleteController:
+      class: ../../../entrypoints/controllers/aircraft-models/aircraft-model-delete.controller
+      arguments: [
+        '@AircraftModels.Application.Delete.RemoveAircraftModelUseCase'
+      ]

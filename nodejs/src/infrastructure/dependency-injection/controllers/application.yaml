@@ -1,0 +1,12 @@
+imports:
+  - { resource: ./aircraft-models/application.yaml }
+  - { resource: ./aircrafts/application.yaml }
+  - { resource: ./companies/application.yaml }
+  - { resource: ./engines/application.yaml }
+  - { resource: ./fleets/application.yaml }
+  - { resource: ./issues/application.yaml }
+
+services:
+  EntryPoints.Controllers.HealthCheckGetController:
+    class: ../../entrypoints/controllers/health-check/health-check-get.controller
+    arguments: []

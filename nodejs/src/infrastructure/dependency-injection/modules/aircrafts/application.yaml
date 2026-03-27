@@ -1,0 +1,46 @@
+services:
+  Aircrafts.Domain.AircraftRepository:
+    class: ../../../../modules/aircrafts/infrastructure/typeorm/typeorm-aircraft.repository
+    arguments: [
+      '@ConnectionManager'
+    ]
+  Aircrafts.Application.Create.RegisterAircraftUseCase:
+    class: ../../../../modules/aircrafts/application/create/register-aircraft-usecase.service
+    arguments: [
+      '@Aircrafts.Domain.AircraftRepository',
+      '@AircraftModels.Domain.AircraftModelRepository'
+    ]
+  Aircrafts.Application.Find.GetAircraftUseCase:
+    class: ../../../../modules/aircrafts/application/find/get-aircraft-usecase.service
+    arguments: [
+      '@Aircrafts.Domain.AircraftRepository'
+    ]
+  Aircrafts.Application.Paginate.SearchAircraftsUseCase:
+    class: ../../../../modules/aircrafts/application/paginate/search-aircrafts-usecase.service
+    arguments: [
+      '@Aircrafts.Domain.AircraftRepository'
+    ]
+  Aircrafts.Application.Update.InstallEngineInAircraftUseCase:
+    class: ../../../../modules/aircrafts/application/update/install-engine-in-aircraft-usecase.service
+    arguments: [
+      '@Engines.Domain.EngineRepository',
+      '@Aircrafts.Domain.AircraftRepository',
+      '@AircraftModels.Domain.AircraftModelRepository'
+    ]
+  Aircrafts.Application.Update.RemoveEngineFromAircraftUseCase:
+    class: ../../../../modules/aircrafts/application/update/remove-engine-from-aircraft-usecase.service
+    arguments: [
+      '@Engines.Domain.EngineRepository',
+      '@Aircrafts.Domain.AircraftRepository'
+    ]
+  Aircrafts.Application.Delete.RemoveAircraftUseCase:
+    class: ../../../../modules/aircrafts/application/delete/remove-aircraft-usecase.service
+    arguments: [
+      '@Aircrafts.Domain.AircraftRepository'
+    ]
+  Aircrafts.Application.Find.GetAircraftsInMaintenanceUseCase:
+    class: ../../../../modules/aircrafts/application/find/find-aircrafts-in-maintenance-usecase.service
+    arguments: [
+      '@Aircrafts.Domain.AircraftRepository'
+    ]
+

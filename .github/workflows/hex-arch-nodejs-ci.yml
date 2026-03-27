@@ -98,7 +98,7 @@ jobs:
           POSTGRES_PASSWORD: sup3rs3cr3t
           POSTGRES_DB: monolith-arch-nodejs-test
         ports:
-          - 5432:5432
+          - 5433:5432
         options: >-
           --health-cmd="pg_isready -U sheriff"
           --health-interval=10s
@@ -133,7 +133,7 @@ jobs:
           POSTGRES_PASSWORD: sup3rs3cr3t
           POSTGRES_DB: monolith-arch-nodejs-test
         ports:
-          - 5432:5432
+          - 5433:5432
         options: >-
           --health-cmd="pg_isready -U sheriff"
           --health-interval=10s

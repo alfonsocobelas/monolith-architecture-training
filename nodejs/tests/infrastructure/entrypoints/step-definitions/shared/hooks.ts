@@ -17,7 +17,7 @@ BeforeAll(async () => {
   application = new App()
   await application.start()
 
-  const container = application.getContainer()
+  const container = application.container
   environmentArranger = await container.get(ContainerNamespaces.EnvironmentArranger)
   dataSource = await container.get(ContainerNamespaces.ConnectionManager)
 

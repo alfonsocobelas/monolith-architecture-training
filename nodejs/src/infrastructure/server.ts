@@ -26,8 +26,18 @@ export class Server {
     this.express.use('/api', this.router)
   }
 
-  getHTTPServer(): http.Server | undefined {
+  getHTTPServer(): http.Server {
+    if (!this.httpServer) {
+      throw new Error('HTTP Server not initialized. Call listen() first.')
+    }
     return this.httpServer
+  }
+
+  getContainer(): ContainerBuilder {
+    if (!this.container) {
+      throw new Error('Container not initialized. Call init() first.')
+    }
+    return this.container
   }
 
   async init(): Promise<void> {
@@ -36,13 +46,6 @@ export class Server {
     await registerRoutes(this.router, this.container)
 
     this.router.use(errorHandler)
-  }
-
-  getContainer(): ContainerBuilder {
-    if (!this.container) {
-      throw new Error('Container not initialized. Call init() first.')
-    }
-    return this.container
   }
 
   async listen(): Promise<void> {
@@ -75,9 +78,8 @@ export class Server {
     const bold = '\x1b[1m'
     const reset = '\x1b[0m'
 
-    console.log(
-      `${green}${bold}✔ Mooc Backend App is running at${reset} ${yellow}http://localhost:${this.port}${reset} in ${this.express.get('env')} mode`
-    )
+    // todo: modificat el host para que sea configurable
+    console.log(`${green}${bold}✔ Mooc Backend App is running at${reset} ${yellow}http://localhost:${this.port}${reset} in ${this.express.get('env')} mode`)
     console.log(`${green}${bold}✔${reset} Press ${bold}CTRL-C${reset} to stop\n`)
   }
 }

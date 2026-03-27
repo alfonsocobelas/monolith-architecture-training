@@ -5,7 +5,7 @@ import { GlobalSeed } from './global-seed'
 /**
  * Initialize global Faker and fast-check seed and log it for reproducibility
  */
-;(function initializeGlobalSeed() {
+(function initializeGlobalSeed() {
   const seedManager = GlobalSeed.getInstance()
   const masterSeed = seedManager.getMasterSeed()
 

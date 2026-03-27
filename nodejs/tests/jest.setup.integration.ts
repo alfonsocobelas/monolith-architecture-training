@@ -14,7 +14,7 @@ let queryRunner: QueryRunner
 /**
  * Initialize global Faker seed and log it for reproducibility
  */
-;(function initializeGlobalSeed() {
+(function initializeGlobalSeed() {
   const seedManager = GlobalSeed.getInstance()
   const masterSeed = seedManager.getMasterSeed()
   faker.seed(masterSeed)

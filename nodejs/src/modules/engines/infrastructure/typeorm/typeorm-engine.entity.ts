@@ -1,23 +1,13 @@
-import {
-  Entity,
-  PrimaryColumn,
-  Column,
-  ManyToOne,
-  JoinColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
-  Check
-} from 'typeorm'
+import { Entity, PrimaryColumn, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, Check, Index } from 'typeorm'
 import { AircraftEntity } from '../../../aircrafts/infrastructure/typeorm/typeorm-aircraft.entity'
 import { EngineStatus } from '../../domain/engine-enums'
 import { ENGINE_CONSTRAINTS as LIMITS } from '../../domain/engine-constants'
 
 @Entity('engines')
 @Check(`"healthScore" >= ${LIMITS.HEALTH_SCORE.MIN} AND "healthScore" <= ${LIMITS.HEALTH_SCORE.MAX}`)
-@Check(
-  `char_length("serialNumber") >= ${LIMITS.SERIAL_NUMBER.MIN_LENGTH} AND char_length("serialNumber") <= ${LIMITS.SERIAL_NUMBER.MAX_LENGTH}`
-)
+@Check(`char_length("serialNumber") >= ${LIMITS.SERIAL_NUMBER.MIN_LENGTH} AND char_length("serialNumber") <= ${LIMITS.SERIAL_NUMBER.MAX_LENGTH}`)
+@Index('IDX_ENGINE_SERIAL_NUMBER', ['serialNumber'], { unique: true })
+
 export class EngineEntity {
   @PrimaryColumn('uuid')
     id!: string

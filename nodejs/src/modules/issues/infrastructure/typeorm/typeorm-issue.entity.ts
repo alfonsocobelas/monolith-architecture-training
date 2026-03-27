@@ -1,14 +1,4 @@
-import {
-  Entity,
-  PrimaryColumn,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
-  ManyToOne,
-  JoinColumn,
-  Check
-} from 'typeorm'
+import { Entity, PrimaryColumn, Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, ManyToOne, JoinColumn, Check, Index } from 'typeorm'
 import { AircraftEntity } from 'src/modules/aircrafts/infrastructure/typeorm/typeorm-aircraft.entity'
 import { EngineEntity } from 'src/modules/engines/infrastructure/typeorm/typeorm-engine.entity'
 import { IssuePartCategory, IssueSeverityLevel } from '../../domain/issue-enums'
@@ -16,9 +6,9 @@ import { ISSUE_CONSTRAINTS as LIMITS } from '../../domain/issue-constants'
 
 @Entity('issues')
 @Check(`char_length("code") >= ${LIMITS.CODE.MIN_LENGTH} AND char_length("code") <= ${LIMITS.CODE.MAX_LENGTH}`)
-@Check(
-  `char_length("description") >= ${LIMITS.DESCRIPTION.MIN_LENGTH} AND char_length("description") <= ${LIMITS.DESCRIPTION.MAX_LENGTH}`
-)
+@Check(`char_length("description") >= ${LIMITS.DESCRIPTION.MIN_LENGTH} AND char_length("description") <= ${LIMITS.DESCRIPTION.MAX_LENGTH}`)
+@Index('IDX_ISSUE_CODE', ['code'], { unique: true })
+
 export class IssueEntity {
   @PrimaryColumn('uuid')
     id!: string

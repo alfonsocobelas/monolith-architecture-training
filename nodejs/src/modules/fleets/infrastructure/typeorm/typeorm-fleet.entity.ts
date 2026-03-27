@@ -1,17 +1,12 @@
-import {
-  Entity,
-  PrimaryColumn,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
-  ManyToOne,
-  JoinColumn
-} from 'typeorm'
+import { Entity, PrimaryColumn, Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, ManyToOne, JoinColumn, Check, Index } from 'typeorm'
 import { OperationRegion, FleetType, FleetStatus } from '../../domain/fleet-enums'
 import { CompanyEntity } from 'src/modules/companies/infrastructure/typeorm/typeorm-company.entity'
+import { FLEET_CONSTRAINTS as LIMITS } from '../../domain/fleet-constants'
 
 @Entity('fleets')
+@Check(`char_length("name") >= ${LIMITS.NAME.MIN_LENGTH} AND char_length("name") <= ${LIMITS.NAME.MAX_LENGTH}`)
+@Index('IDX_FLEET_NAME', ['name'], { unique: true })
+
 export class FleetEntity {
   @PrimaryColumn('uuid')
     id!: string
@@ -22,7 +17,7 @@ export class FleetEntity {
   @Column('uuid')
     companyId!: string
 
-  @Column('varchar', { length: 100, unique: true })
+  @Column('varchar', { length: LIMITS.NAME.MAX_LENGTH, unique: true })
     name!: string
 
   @Column('enum', { enum: OperationRegion })

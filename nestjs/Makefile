@@ -4,13 +4,13 @@ SEED ?= 12345
 
 # DOCKER
 docker-test-cleanup:
-	@docker compose -p monolith-arch-nodejs -f ./tests/infrastructure/docker/docker-compose.test.yml down -v
+	@docker compose -p monolith-arch-nestjs -f ./tests/infrastructure/docker/docker-compose.test.yml down -v
 
 docker-test-start: docker-test-cleanup
-	@docker compose -p monolith-arch-nodejs -f ./tests/infrastructure/docker/docker-compose.test.yml up -d
+	@docker compose -p monolith-arch-nestjs -f ./tests/infrastructure/docker/docker-compose.test.yml up -d
 
 docker-test-restart:
-	@docker compose -p monolith-arch-nodejs -f ./tests/infrastructure/docker/docker-compose.test.yml restart
+	@docker compose -p monolith-arch-nestjs -f ./tests/infrastructure/docker/docker-compose.test.yml restart
 
 docker-test-stop: docker-test-cleanup
 

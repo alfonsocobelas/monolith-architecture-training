@@ -1,33 +1,44 @@
-import { EntityTarget } from 'typeorm'
+import { DataSource, EntityTarget } from 'typeorm'
+import { Injectable } from '@nestjs/common'
 import { Nullable } from 'src/common/nullable'
 import { Criteria } from 'src/modules/shared/domain/query/criteria'
 import { TypeOrmRepository } from 'src/infrastructure/persistence/typeorm/typeorm.repository'
+import { TypeOrmCriteriaConverter } from 'src/infrastructure/persistence/typeorm/typeorm-criteria-converter'
 import { EngineMapper } from './typeorm-engine.mapper'
 import { EngineEntity } from './typeorm-engine.entity'
 import { EngineRepository } from '../../domain/engine.repository'
 import { Engine } from '../../domain/engine'
 
+@Injectable()
 export class TypeOrmEngineRepository
   extends TypeOrmRepository<EngineEntity>
   implements EngineRepository
 {
+  constructor(dataSource: DataSource, converter: TypeOrmCriteriaConverter) {
+    super(dataSource, converter)
+  }
+
   protected entitySchema(): EntityTarget<EngineEntity> {
     return EngineEntity
   }
 
   async register(engine: Engine): Promise<void> {
-    const repository = await this.repository()
+    const repository = this.repository()
     const entity = EngineMapper.toPersistence(engine)
 
     await repository.insert(entity)
   }
 
   async save(engines: Engine | Engine[]): Promise<void> {
-    await this.persist(engines, EngineMapper)
+    const entities = Array.isArray(engines)
+      ? engines.map(EngineMapper.toPersistence)
+      : EngineMapper.toPersistence(engines)
+
+    await this.persist(entities)
   }
 
   async get(engineId: string): Promise<Nullable<Engine>> {
-    const repository = await this.repository()
+    const repository = this.repository()
     const entity = await repository.findOneBy({ id: engineId })
 
     if (!entity) {
@@ -44,7 +55,7 @@ export class TypeOrmEngineRepository
   }
 
   async exists(serialNumber: string): Promise<boolean> {
-    const repository = await this.repository()
+    const repository = this.repository()
 
     const existEntity = await repository
       .createQueryBuilder('engine')

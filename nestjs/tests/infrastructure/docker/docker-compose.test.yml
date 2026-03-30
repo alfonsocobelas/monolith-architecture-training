@@ -1,0 +1,13 @@
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      - POSTGRES_HOST=localhost
+      - POSTGRES_DB=monolith-arch-nestjs-test
+      - POSTGRES_USER=sheriff
+      - POSTGRES_PASSWORD=sup3rs3cr3t
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data:delegated
+    ports:
+      - 5433:5432
+    restart: always

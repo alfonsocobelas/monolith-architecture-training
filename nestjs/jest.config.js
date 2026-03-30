@@ -41,4 +41,12 @@ if (process.env.JEST_ENV === 'unit') {
   }
 }
 
+if (process.env.JEST_ENV === 'integration') {
+  config = {
+    ...baseConfig,
+    setupFilesAfterEnv: ['<rootDir>/tests/jest.setup.integration.ts'],
+    testMatch: ['<rootDir>/tests/infrastructure/**/*.test.ts']
+  }
+}
+
 module.exports = config;

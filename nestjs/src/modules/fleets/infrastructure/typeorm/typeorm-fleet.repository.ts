@@ -1,33 +1,44 @@
-import { EntityTarget } from 'typeorm'
+import { DataSource, EntityTarget } from 'typeorm'
+import { Injectable } from '@nestjs/common'
 import { Nullable } from 'src/common/nullable'
 import { Criteria } from 'src/modules/shared/domain/query/criteria'
 import { TypeOrmRepository } from 'src/infrastructure/persistence/typeorm/typeorm.repository'
+import { TypeOrmCriteriaConverter } from 'src/infrastructure/persistence/typeorm/typeorm-criteria-converter'
 import { FleetEntity } from './typeorm-fleet.entity'
 import { FleetMapper } from './typeorm-fleet.mapper'
 import { FleetRepository } from '../../domain/fleet.repository'
 import { Fleet } from '../../domain/fleet'
 
+@Injectable()
 export class TypeOrmFleetRepository
   extends TypeOrmRepository<FleetEntity>
   implements FleetRepository
 {
+  constructor(dataSource: DataSource, converter: TypeOrmCriteriaConverter) {
+    super(dataSource, converter)
+  }
+
   protected entitySchema(): EntityTarget<FleetEntity> {
     return FleetEntity
   }
 
   async register(fleet: Fleet): Promise<void> {
-    const repository = await this.repository()
+    const repository = this.repository()
     const entity = FleetMapper.toPersistence(fleet)
 
     await repository.insert(entity)
   }
 
   async save(fleets: Fleet | Fleet[]): Promise<void> {
-    await this.persist(fleets, FleetMapper)
+    const entities = Array.isArray(fleets)
+      ? fleets.map(FleetMapper.toPersistence)
+      : FleetMapper.toPersistence(fleets)
+
+    await this.persist(entities)
   }
 
   async get(fleetId: string): Promise<Nullable<Fleet>> {
-    const repository = await this.repository()
+    const repository = this.repository()
     const entity = await repository.findOneBy({ id: fleetId })
 
     if (!entity) {

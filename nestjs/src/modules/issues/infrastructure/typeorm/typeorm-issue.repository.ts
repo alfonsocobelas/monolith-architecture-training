@@ -1,29 +1,36 @@
-import { EntityTarget } from 'typeorm'
+import { DataSource, EntityTarget } from 'typeorm'
+import { Injectable } from '@nestjs/common'
 import { Nullable } from 'src/common/nullable'
 import { Criteria } from 'src/modules/shared/domain/query/criteria'
 import { TypeOrmRepository } from 'src/infrastructure/persistence/typeorm/typeorm.repository'
+import { TypeOrmCriteriaConverter } from 'src/infrastructure/persistence/typeorm/typeorm-criteria-converter'
 import { IssueEntity } from './typeorm-issue.entity'
 import { IssueMapper } from './typeorm-issue.mapper'
 import { IssueRepository } from '../../domain/issue.repository'
 import { Issue } from '../../domain/issue'
 
+@Injectable()
 export class TypeOrmIssueRepository
   extends TypeOrmRepository<IssueEntity>
   implements IssueRepository
 {
+  constructor(dataSource: DataSource, converter: TypeOrmCriteriaConverter) {
+    super(dataSource, converter)
+  }
+
   protected entitySchema(): EntityTarget<IssueEntity> {
     return IssueEntity
   }
 
   async register(issue: Issue): Promise<void> {
-    const repository = await this.repository()
+    const repository = this.repository()
     const entity = IssueMapper.toPersistence(issue)
 
     await repository.insert(entity)
   }
 
   async get(issueId: string): Promise<Nullable<Issue>> {
-    const repository = await this.repository()
+    const repository = this.repository()
     const entity = await repository.findOneBy({ id: issueId })
 
     if (!entity) {
@@ -34,7 +41,11 @@ export class TypeOrmIssueRepository
   }
 
   async save(issues: Issue | Issue[]): Promise<void> {
-    await this.persist(issues, IssueMapper)
+    const entities = Array.isArray(issues)
+      ? issues.map(IssueMapper.toPersistence)
+      : IssueMapper.toPersistence(issues)
+
+    await this.persist(entities)
   }
 
   async matching(criteria: Criteria): Promise<Issue[]> {

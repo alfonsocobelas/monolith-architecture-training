@@ -1,7 +1,9 @@
-import { EntityTarget, In } from 'typeorm'
+import { DataSource, EntityTarget, In } from 'typeorm'
+import { Injectable } from '@nestjs/common'
 import { Nullable } from 'src/common/nullable'
 import { Criteria } from 'src/modules/shared/domain/query/criteria'
 import { TypeOrmRepository } from 'src/infrastructure/persistence/typeorm/typeorm.repository'
+import { TypeOrmCriteriaConverter } from 'src/infrastructure/persistence/typeorm/typeorm-criteria-converter'
 import { AircraftEntity } from './typeorm-aircraft.entity'
 import { AircraftMapper } from './typeorm-aircraft.mapper'
 import { Aircraft } from '../../domain/aircraft'
@@ -15,27 +17,36 @@ const ENGINE_FIELDS = ['engine.id', 'engine.healthScore']
 const MODEL_FIELDS = ['model.id', 'model.name', 'model.numEngines']
 const SELECT_FIELDS = [...AIRCRAFT_FIELDS, ...ENGINE_FIELDS, ...MODEL_FIELDS]
 
+@Injectable()
 export class TypeOrmAircraftRepository
   extends TypeOrmRepository<AircraftEntity>
   implements AircraftRepository
 {
+  constructor(dataSource: DataSource, converter: TypeOrmCriteriaConverter) {
+    super(dataSource, converter)
+  }
+
   protected entitySchema(): EntityTarget<AircraftEntity> {
     return AircraftEntity
   }
 
   async register(aircraft: Aircraft): Promise<void> {
-    const repository = await this.repository()
+    const repository = this.repository()
     const entity = AircraftMapper.toPersistence(aircraft)
 
     await repository.insert(entity)
   }
 
   async save(aircrafts: Aircraft | Aircraft[]): Promise<void> {
-    await this.persist(aircrafts, AircraftMapper)
+    const entities = Array.isArray(aircrafts)
+      ? aircrafts.map(AircraftMapper.toPersistence)
+      : AircraftMapper.toPersistence(aircrafts)
+
+    await this.persist(entities)
   }
 
   async remove(aircraft: Aircraft): Promise<void> {
-    const repository = await this.repository()
+    const repository = this.repository()
     await repository.delete(aircraft.id)
   }
 
@@ -44,7 +55,7 @@ export class TypeOrmAircraftRepository
   }
 
   async get(aircraftId: string): Promise<Nullable<Aircraft>> {
-    const repository = await this.repository()
+    const repository = this.repository()
 
     const entity = await repository.findOneBy({ id: aircraftId })
 
@@ -56,7 +67,7 @@ export class TypeOrmAircraftRepository
   }
 
   async getTechnicalSheet(aircraftId: string): Promise<Nullable<AircraftReadModel>> {
-    const repository = await this.repository()
+    const repository = this.repository()
 
     const entity = await repository
       .createQueryBuilder('aircraft')
@@ -74,7 +85,7 @@ export class TypeOrmAircraftRepository
   }
 
   async find(aircraftIds: string[]): Promise<Aircraft[]> {
-    const repository = await this.repository()
+    const repository = this.repository()
 
     const entities = await repository.findBy({ id: In(aircraftIds) })
 
@@ -82,7 +93,7 @@ export class TypeOrmAircraftRepository
   }
 
   async findTechnicalSheets(aircraftIds: string[]): Promise<AircraftReadModel[]> {
-    const repository = await this.repository()
+    const repository = this.repository()
 
     const entities = await repository
       .createQueryBuilder('aircraft')

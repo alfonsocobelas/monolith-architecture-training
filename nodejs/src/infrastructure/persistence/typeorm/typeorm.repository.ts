@@ -72,7 +72,10 @@ export abstract class TypeOrmRepository<EntityType extends ObjectLiteral> {
     return qb.select('1').getExists()
   }
 
-  protected async persist<T>(domains: T | T[], mapper: { toPersistence: (domain: T) => EntityType }): Promise<void> {
+  protected async persist<T>(
+    domains: T | T[],
+    mapper: { toPersistence: (domain: T) => EntityType }
+  ): Promise<void> {
     const repository = await this.repository()
 
     if (Array.isArray(domains)) {

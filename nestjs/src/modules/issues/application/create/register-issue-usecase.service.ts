@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common'
 import { AlreadyExistsError } from 'src/common/errors'
 import { RegisterIssueInput } from './register-issue-input.dto'
 import { Issue } from '../../domain/issue'
@@ -5,6 +6,7 @@ import { IssueRepository } from '../../domain/issue.repository'
 import { IssueWithCodeSpecification } from '../../domain/specifications/issue-with-code.specification'
 import { IssuePartCategory, IssueSeverityLevel } from '../../domain/issue-enums'
 
+@Injectable()
 export class RegisterIssueUseCase {
   constructor(
     private readonly repository: IssueRepository

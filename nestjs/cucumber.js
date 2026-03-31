@@ -7,7 +7,7 @@ module.exports = {
     format: ['progress', 'summary'],
     timeout: 10000
   },
-  monolithArchNodejs: {
+  monolithArchNestjs: {
     paths: ['tests/infrastructure/entrypoints/features/**/*.feature'],
     require: ['tests/infrastructure/entrypoints/step-definitions/**/*.ts'],
     requireModule: ['ts-node/register', 'tsconfig-paths/register'],

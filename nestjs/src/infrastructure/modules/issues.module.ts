@@ -25,6 +25,7 @@ import { IssuesController } from '../entrypoints/controllers/issues.controller'
       provide: IssueRepository,
       useClass: TypeOrmIssueRepository
     }
-  ]
+  ],
+  exports: [IssueRepository]
 })
 export class IssuesModule {}

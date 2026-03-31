@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common'
+import { Module, forwardRef } from '@nestjs/common'
 import { GetAircraftUseCase } from 'src/modules/aircrafts/application/find/get-aircraft-usecase.service'
 import { RemoveAircraftUseCase } from 'src/modules/aircrafts/application/delete/remove-aircraft-usecase.service'
 import { SearchAircraftsUseCase } from 'src/modules/aircrafts/application/paginate/search-aircrafts-usecase.service'
@@ -16,8 +16,14 @@ import { InstallEngineInAircraftHandler } from '../entrypoints/handlers/aircraft
 import { RemoveEngineFromAircraftHandler } from '../entrypoints/handlers/aircrafts/remove-engine-from-aircraft.handler'
 import { FindAircraftsInMaintenanceHandler } from '../entrypoints/handlers/aircrafts/find-aircrafts-in-maintenance.handler'
 import { AircraftsController } from '../entrypoints/controllers/aircrafts.controller'
+import { AircraftModelsModule } from './aircraft-models.module'
+import { EnginesModule } from './engines.module'
 
 @Module({
+  imports: [
+    forwardRef(() => AircraftModelsModule),
+    EnginesModule
+  ],
   controllers: [AircraftsController],
   providers: [
     // Handlers
@@ -41,6 +47,7 @@ import { AircraftsController } from '../entrypoints/controllers/aircrafts.contro
       provide: AircraftRepository,
       useClass: TypeOrmAircraftRepository
     }
-  ]
+  ],
+  exports: [AircraftRepository]
 })
 export class AircraftsModule {}

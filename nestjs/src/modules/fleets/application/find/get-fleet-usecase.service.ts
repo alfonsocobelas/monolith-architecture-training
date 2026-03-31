@@ -1,8 +1,10 @@
+import { Injectable } from '@nestjs/common'
 import { EntityNotFoundError } from 'src/common/errors'
 import { FleetRepository } from '../../domain/fleet.repository'
 import { GetFleetOutput } from './get-fleet-output.dto'
 import { GetFleetInput } from './get-fleet-input.dto'
 
+@Injectable()
 export class GetFleetUseCase {
   constructor(
     private readonly fleetRepository: FleetRepository

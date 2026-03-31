@@ -1,8 +1,10 @@
+import { Injectable } from '@nestjs/common'
 import { EntityNotFoundError, InvalidArgumentError } from 'src/common/errors'
 import { FleetRepository } from 'src/modules/fleets/domain/fleet.repository'
 import { AircraftRepository } from 'src/modules/aircrafts/domain/aircraft.repository'
 import { RetireAircraftsFromFleetInput } from './retire-aircrafts-from-fleet-input.dto'
 
+@Injectable()
 export class RetireAircraftsFromFleetUsecase {
   constructor(
     private readonly fleetRepository: FleetRepository,

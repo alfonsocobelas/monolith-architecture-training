@@ -1,10 +1,11 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common'
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common'
 import { RegisterFleetHandler } from '../handlers/fleets/register-fleet.handler'
 import { RegisterFleetDto } from '../dtos/fleets/register-fleet.dto'
-import { IdParamDto } from '../dtos/shared/id-param.dto'
 import { GetFleetHandler } from '../handlers/fleets/get-fleet.handler'
 import { SearchFleetsHandler } from '../handlers/fleets/search-fleets.handler'
 import { PaginateOffsetDto } from '../dtos/shared/paginate-offset.dto'
+import { ParseUUIDv7Pipe } from '../pipes/parse-uuid-v7.pipe'
+import { ParseCriteriaPipe } from '../pipes/parse-criteria.pipe'
 
 @Controller('fleets')
 export class FleetsController {
@@ -20,12 +21,12 @@ export class FleetsController {
   }
 
   @Get(':id')
-  get(@Param('id') id: IdParamDto) {
+  get(@Param('id', ParseUUIDv7Pipe) id: string) {
     return this.getFleetHandler.run(id)
   }
 
   @Get()
-  search(@Param() params: PaginateOffsetDto) {
-    return this.searchFleetsHandler.run(params)
+  search(@Query(new ParseCriteriaPipe()) query: PaginateOffsetDto) {
+    return this.searchFleetsHandler.run(query)
   }
 }

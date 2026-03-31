@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common'
 import { Cursor } from 'src/modules/shared/domain/query/cursor'
 import { Criteria } from 'src/modules/shared/domain/query/criteria'
 import { CursorSearchInput } from 'src/modules/shared/application/search-input.dto'
@@ -6,6 +7,7 @@ import { SearchIssuesOutput } from './search-issues-output.dto'
 import searchIssuesConfig from './search-issues-config'
 import { IssueRepository } from '../../domain/issue.repository'
 
+@Injectable()
 export class SearchIssuesUseCase {
   constructor(
     private readonly issueRepository: IssueRepository

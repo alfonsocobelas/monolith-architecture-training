@@ -1,7 +1,9 @@
+import { Injectable } from '@nestjs/common'
 import { EntityNotFoundError } from 'src/common/errors'
 import { RemoveCompanyInput } from './remove-company-input.dto'
 import { CompanyRepository } from '../../domain/company.repository'
 
+@Injectable()
 export class RemoveCompanyUseCase {
   constructor(
     private readonly repository: CompanyRepository

@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common'
 import { RemoveAircraftModelUseCase } from 'src/modules/aircraft-models/application/delete/remove-aircraft-model-usecase.service'
-import { IdParamDto } from '../../dtos/shared/id-param.dto'
 
 @Injectable()
 export class RemoveAircraftModelHandler {
@@ -8,7 +7,7 @@ export class RemoveAircraftModelHandler {
     private readonly useCase: RemoveAircraftModelUseCase
   ) {}
 
-  async run(id: IdParamDto): Promise<void> {
-    await this.useCase.invoke(id)
+  async run(id: string): Promise<void> {
+    await this.useCase.invoke({ id })
   }
 }

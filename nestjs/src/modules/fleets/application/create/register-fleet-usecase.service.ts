@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common'
 import { AlreadyExistsError, InvalidArgumentError } from 'src/common/errors'
 import { AircraftRepository } from 'src/modules/aircrafts/domain/aircraft.repository'
 import { RegisterFleetInput } from './register-fleet-input.dto'
@@ -6,6 +7,7 @@ import { FleetRepository } from '../../domain/fleet.repository'
 import { FleetType, OperationRegion } from '../../domain/fleet-enums'
 import { FleetWithNameSpecification } from '../../domain/specifications/fleet-with-name.specification'
 
+@Injectable()
 export class RegisterFleetUseCase {
   constructor(
     private readonly fleetRepository: FleetRepository,

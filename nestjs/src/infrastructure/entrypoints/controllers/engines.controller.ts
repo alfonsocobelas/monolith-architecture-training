@@ -1,10 +1,11 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common'
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common'
 import { GetEngineHandler } from '../handlers/engines/get-engine.handler'
 import { SearchEnginesHandler } from '../handlers/engines/search-engines.handler'
 import { RegisterEngineHandler } from '../handlers/engines/register-engine.handler'
-import { IdParamDto } from '../dtos/shared/id-param.dto'
 import { RegisterEngineDto } from '../dtos/engines/register-engine.dto'
 import { PaginateCursorDto } from '../dtos/shared/paginate-cursor.dto'
+import { ParseUUIDv7Pipe } from '../pipes/parse-uuid-v7.pipe'
+import { ParseCriteriaPipe } from '../pipes/parse-criteria.pipe'
 
 @Controller('engines')
 export class EnginesController {
@@ -20,12 +21,12 @@ export class EnginesController {
   }
 
   @Get(':id')
-  get(@Param('id') id: IdParamDto) {
+  get(@Param('id', ParseUUIDv7Pipe) id: string) {
     return this.getEngineHandler.run(id)
   }
 
   @Get()
-  search(@Param() params: PaginateCursorDto) {
-    return this.searchEnginesHandler.run(params)
+  search(@Query(new ParseCriteriaPipe()) query: PaginateCursorDto) {
+    return this.searchEnginesHandler.run(query)
   }
 }

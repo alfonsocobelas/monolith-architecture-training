@@ -1,8 +1,10 @@
+import { Injectable } from '@nestjs/common'
 import { EntityNotFoundError } from 'src/common/errors'
 import { GetEngineInput } from './get-engine-input.dto'
 import { GetEngineOutput } from './get-engine-output.dto'
 import { EngineRepository } from '../../domain/engine.repository'
 
+@Injectable()
 export class GetEngineUseCase {
   constructor(
     private readonly engineRepository: EngineRepository

@@ -25,6 +25,7 @@ import { TypeOrmCompanyRepository } from 'src/modules/companies/infrastructure/t
       provide: CompanyRepository,
       useClass: TypeOrmCompanyRepository
     }
-  ]
+  ],
+  exports: [CompanyRepository]
 })
 export class CompaniesModule {}

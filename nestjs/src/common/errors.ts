@@ -17,6 +17,17 @@ export class BaseCustomError extends Error {
     this.cause = cause
     Error.captureStackTrace(this, this.constructor)
   }
+
+  getResponse() {
+    return {
+      name: this.name,
+      message: this.message
+    }
+  }
+
+  getStatus() {
+    return this.status
+  }
 }
 
 export class EntityNotFoundError extends BaseCustomError {

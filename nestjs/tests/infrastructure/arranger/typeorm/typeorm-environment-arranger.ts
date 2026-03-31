@@ -55,9 +55,7 @@ export class TypeOrmEnvironmentArranger extends EnvironmentArranger {
     }
 
     try {
-      for (const entity of entities) {
-        await this.dataSource.query(`TRUNCATE TABLE "${entity.tableName}" RESTART IDENTITY CASCADE;`)
-      }
+      await this.client().query(`TRUNCATE TABLE ${tableNames} RESTART IDENTITY CASCADE;`)
     } catch (error) {
       throw new Error(`Unable to clean test database: ${error}`)
     }

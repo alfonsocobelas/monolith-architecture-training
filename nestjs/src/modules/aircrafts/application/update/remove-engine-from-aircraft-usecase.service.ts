@@ -1,8 +1,10 @@
+import { Injectable } from '@nestjs/common'
 import { EntityNotFoundError } from 'src/common/errors'
 import { AircraftRepository } from 'src/modules/aircrafts/domain/aircraft.repository'
 import { EngineRepository } from 'src/modules/engines/domain/engine.repository'
 import { RemoveEngineFromAircraftInput } from './remove-engine-from-aircraft-input.dto'
 
+@Injectable()
 export class RemoveEngineFromAircraftUsecase {
   constructor(
     private readonly engineRepository: EngineRepository,

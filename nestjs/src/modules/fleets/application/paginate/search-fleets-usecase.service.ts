@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common'
 import { Criteria } from 'src/modules/shared/domain/query/criteria'
 import { OffsetSearchInput } from 'src/modules/shared/application/search-input.dto'
 import { OffsetPaginatedOutput } from 'src/modules/shared/application/search-output.dto'
@@ -6,6 +7,7 @@ import { getTotalPages } from 'src/modules/shared/utils/pagination'
 import searchFleetsConfig from './search-fleets-config'
 import { FleetRepository } from '../../domain/fleet.repository'
 
+@Injectable()
 export class SearchFleetsUseCase {
   constructor(
     private readonly fleetRepository: FleetRepository

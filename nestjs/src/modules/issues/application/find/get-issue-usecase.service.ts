@@ -1,8 +1,10 @@
+import { Injectable } from '@nestjs/common'
 import { EntityNotFoundError } from 'src/common/errors'
 import { GetIssueInput } from './get-issue-input.dto'
 import { GetIssueOutput } from './get-issue-output.dto'
 import { IssueRepository } from '../../domain/issue.repository'
 
+@Injectable()
 export class GetIssueUseCase {
   constructor(
     private readonly issueRepository: IssueRepository

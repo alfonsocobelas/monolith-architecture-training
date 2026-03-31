@@ -1,8 +1,10 @@
+import { Injectable } from '@nestjs/common'
 import { EntityNotFoundError } from 'src/common/errors'
 import { GetAircraftInput } from './get-aircraft-input.dto'
 import { GetAircraftOutput } from './get-aircraft-output.dto'
 import { AircraftRepository } from '../../domain/aircraft.repository'
 
+@Injectable()
 export class GetAircraftUseCase {
   constructor(
     private readonly repository: AircraftRepository

@@ -28,6 +28,7 @@
     "test": "jest",
     "test:unit": "NODE_ENV=test JEST_ENV='unit' jest",
     "test:integration": "NODE_ENV=test JEST_ENV='integration' jest --runInBand",
+    "test:acceptance": "NODE_ENV=test cucumber-js -p monolithArchNestjs",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",

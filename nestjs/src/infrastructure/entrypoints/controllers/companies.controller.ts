@@ -1,15 +1,16 @@
-import { Body, Controller, Delete, Get, Post } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common'
 import { GetCompanyHandler } from '../handlers/companies/get-company.handler'
 import { RegisterCompanyHandler } from '../handlers/companies/register-company.handler'
-import { IdParamDto } from '../dtos/shared/id-param.dto'
+import { RemoveCompanyHandler } from '../handlers/companies/remove-company.handler'
 import { RegisterCompanyDto } from '../dtos/companies/register-company.dto'
+import { ParseUUIDv7Pipe } from '../pipes/parse-uuid-v7.pipe'
 
 @Controller('companies')
 export class CompaniesController {
   constructor(
     private readonly registerCompanyHandler: RegisterCompanyHandler,
     private readonly getCompanyHandler: GetCompanyHandler,
-    private readonly removeCompanyHandler: GetCompanyHandler
+    private readonly removeCompanyHandler: RemoveCompanyHandler
   ) {}
 
   @Post()
@@ -18,12 +19,12 @@ export class CompaniesController {
   }
 
   @Get(':id')
-  get(@Body('id') id: IdParamDto) {
+  get(@Param('id', ParseUUIDv7Pipe) id: string) {
     return this.getCompanyHandler.run(id)
   }
 
   @Delete(':id')
-  remove(@Body('id') id: IdParamDto) {
+  remove(@Param('id', ParseUUIDv7Pipe) id: string) {
     return this.removeCompanyHandler.run(id)
   }
 }

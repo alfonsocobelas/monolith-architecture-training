@@ -14,8 +14,10 @@ import { AddAircraftToFleetHandler } from '../entrypoints/handlers/fleets/add-ai
 import { RetireAircraftFromFleetHandler } from '../entrypoints/handlers/fleets/retire-aircraft-from-fleet.handler'
 import { RetireAircraftsFromFleetHandler } from '../entrypoints/handlers/fleets/retire-aircrafts-from-fleet.handler'
 import { FleetsController } from '../entrypoints/controllers/fleets.controller'
+import { AircraftsModule } from './aircrafts.module'
 
 @Module({
+  imports: [AircraftsModule],
   controllers: [FleetsController],
   providers: [
     // Handlers
@@ -37,6 +39,7 @@ import { FleetsController } from '../entrypoints/controllers/fleets.controller'
       provide: FleetRepository,
       useClass: TypeOrmFleetRepository
     }
-  ]
+  ],
+  exports: [FleetRepository]
 })
 export class FleetsModule {}

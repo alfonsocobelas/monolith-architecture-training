@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common'
 import { Criteria } from 'src/modules/shared/domain/query/criteria'
 import { getTotalPages } from 'src/modules/shared/utils/pagination'
 import { OffsetSearchInput } from 'src/modules/shared/application/search-input.dto'
@@ -6,6 +7,7 @@ import { SearchAircraftOutput } from './search-aircrafts-output.dtos'
 import searchAircraftsConfig from './search-aircrafts-config'
 import { AircraftRepository } from '../../domain/aircraft.repository'
 
+@Injectable()
 export class SearchAircraftsUseCase {
   constructor(
     private readonly aircraftRepository: AircraftRepository

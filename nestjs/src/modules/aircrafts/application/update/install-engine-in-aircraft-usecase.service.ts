@@ -1,9 +1,11 @@
+import { Injectable } from '@nestjs/common'
 import { EntityNotFoundError } from 'src/common/errors'
 import { AircraftRepository } from 'src/modules/aircrafts/domain/aircraft.repository'
 import { AircraftModelRepository } from 'src/modules/aircraft-models/domain/aircraft-model.repository'
 import { EngineRepository } from 'src/modules/engines/domain/engine.repository'
 import { InstallEngineInAircraftInput } from './install-engine-in-aircraft-input.dto'
 
+@Injectable()
 export class InstallEngineInAircraftUsecase {
   constructor(
     private readonly engineRepository: EngineRepository,

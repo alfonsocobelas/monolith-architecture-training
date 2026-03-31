@@ -1,8 +1,10 @@
+import { Injectable } from '@nestjs/common'
 import { AlreadyExistsError } from 'src/common/errors'
 import { RegisterEngineInput } from './register-engine-input.dto'
 import { EngineRepository } from '../../domain/engine.repository'
 import { Engine } from '../../domain/engine'
 
+@Injectable()
 export class RegisterEngineUseCase {
   constructor(
     private readonly engineRepository: EngineRepository

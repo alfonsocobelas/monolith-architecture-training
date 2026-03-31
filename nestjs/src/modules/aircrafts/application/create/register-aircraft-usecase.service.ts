@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common'
 import { AlreadyExistsError, EntityNotFoundError } from 'src/common/errors'
 import { AircraftModelRepository } from 'src/modules/aircraft-models/domain/aircraft-model.repository'
 import { RegisterAircraftInput } from './register-aircraft-input.dto'
@@ -5,6 +6,7 @@ import { Aircraft } from '../../domain/aircraft'
 import { AircraftRepository } from '../../domain/aircraft.repository'
 import { AircraftWithTailNumberSpecification } from '../../domain/specifications/aircraft-with-tail-number.specification'
 
+@Injectable()
 export class RegisterAircraftUseCase {
   constructor(
     private readonly aircraftRepository: AircraftRepository,

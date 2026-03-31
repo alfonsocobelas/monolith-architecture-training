@@ -1,24 +1,19 @@
 import { Type } from 'class-transformer'
-import { IsInt, IsOptional, IsString, Max, Min } from 'class-validator'
+import { Allow, IsInt, Max, Min } from 'class-validator'
 
 export class PaginateOffsetDto {
-  @IsInt()
   @Type(() => Number)
   @Min(1)
   @Max(100)
-    pageSize!: number
+    pageSize = 10
 
-  @IsOptional()
   @Type(() => Number)
   @IsInt()
   @Min(1)
-    page?: number
+    page = 1
 
-  @IsOptional()
-  @IsString()
-    filters?: string
-
-  @IsOptional()
-  @IsString()
-    orders?: string
+  @Allow()
+    filters?: Array<Map<string, string>>
+  @Allow()
+    orders?: Array<Map<string, string>>
 }

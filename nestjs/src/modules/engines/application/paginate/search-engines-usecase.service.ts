@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common'
 import { Criteria } from 'src/modules/shared/domain/query/criteria'
 import { Cursor } from 'src/modules/shared/domain/query/cursor'
 import { CursorSearchInput } from 'src/modules/shared/application/search-input.dto'
@@ -6,6 +7,7 @@ import { SearchEnginesOutput } from './search-engines-output.dto'
 import { EngineRepository } from '../../domain/engine.repository'
 import searchEnginesConfig from './search-engines-config'
 
+@Injectable()
 export class SearchEnginesUseCase {
   constructor(
     private readonly engineRepository: EngineRepository

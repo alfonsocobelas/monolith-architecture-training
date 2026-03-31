@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer'
-import { IsInt, IsOptional, IsString, Max, Min } from 'class-validator'
+import { Allow, IsInt, IsOptional, IsString, Max, Min } from 'class-validator'
 
 export class PaginateCursorDto {
   @IsOptional()
@@ -7,16 +7,13 @@ export class PaginateCursorDto {
     cursor?: string
 
   @IsInt()
-  @Type(() => Number) //todo: creo que este decorador no funciona por que al controlador no llega esta conversion
+  @Type(() => Number)
   @Min(1)
   @Max(100)
     pageSize!: number
 
-  @IsOptional()
-  @IsString()
-    filters?: string
-
-  @IsOptional()
-  @IsString()
-    orders?: string
+  @Allow()
+    filters?: Array<Map<string, string>>
+  @Allow()
+    orders?: Array<Map<string, string>>
 }

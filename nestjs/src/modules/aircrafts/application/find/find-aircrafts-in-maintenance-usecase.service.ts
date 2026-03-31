@@ -1,9 +1,11 @@
+import { Injectable } from '@nestjs/common'
 import { FindAircraftsInMaintenanceOutput } from './find-aircrafts-in-maintenance-output.dto'
 import { AircraftRepository } from '../../domain/aircraft.repository'
 import { AircraftsInMaintenanceSpecification } from '../../domain/specifications/aircrafts-in-maintenance.specification'
 
 const EMPTY_AIRCRAFTS_IN_MAINTENANCE = [] as FindAircraftsInMaintenanceOutput[]
 
+@Injectable()
 export class FindAircraftsInMaintenanceUseCase {
   constructor(
     private readonly aircraftRepository: AircraftRepository

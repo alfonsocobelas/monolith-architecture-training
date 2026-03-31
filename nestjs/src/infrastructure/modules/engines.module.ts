@@ -25,6 +25,7 @@ import { EnginesController } from '../entrypoints/controllers/engines.controller
       provide: EngineRepository,
       useClass: TypeOrmEngineRepository
     }
-  ]
+  ],
+  exports: [EngineRepository]
 })
 export class EnginesModule {}

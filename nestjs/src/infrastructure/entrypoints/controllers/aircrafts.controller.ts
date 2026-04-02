@@ -32,6 +32,7 @@ export class AircraftsController {
   findInMaintenance() {
     return this.findAircraftsInMaintenanceHandler.run()
   }
+
   @Get()
   search(@Query(new ParseCriteriaPipe()) query: PaginateOffsetDto) {
     return this.searchAircraftsHandler.run(query)

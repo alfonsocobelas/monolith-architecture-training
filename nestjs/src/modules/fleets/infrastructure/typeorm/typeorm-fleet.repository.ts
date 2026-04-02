@@ -1,9 +1,10 @@
-import { DataSource, EntityTarget } from 'typeorm'
+import { EntityTarget } from 'typeorm'
 import { Injectable } from '@nestjs/common'
 import { Nullable } from 'src/common/nullable'
 import { Criteria } from 'src/modules/shared/domain/query/criteria'
 import { TypeOrmRepository } from 'src/infrastructure/persistence/typeorm/typeorm.repository'
 import { TypeOrmCriteriaConverter } from 'src/infrastructure/persistence/typeorm/typeorm-criteria-converter'
+import { TypeOrmTransactionManager } from 'src/infrastructure/persistence/typeorm/typeorm-transaction-manager'
 import { FleetEntity } from './typeorm-fleet.entity'
 import { FleetMapper } from './typeorm-fleet.mapper'
 import { FleetRepository } from '../../domain/fleet.repository'
@@ -14,8 +15,8 @@ export class TypeOrmFleetRepository
   extends TypeOrmRepository<FleetEntity>
   implements FleetRepository
 {
-  constructor(dataSource: DataSource, converter: TypeOrmCriteriaConverter) {
-    super(dataSource, converter)
+  constructor(txManager: TypeOrmTransactionManager, converter: TypeOrmCriteriaConverter) {
+    super(txManager, converter)
   }
 
   protected entitySchema(): EntityTarget<FleetEntity> {

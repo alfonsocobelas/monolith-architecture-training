@@ -1,14 +1,13 @@
 import { v7 as uuidv7 } from 'uuid'
 import { TypeOrmEngineRepository } from 'src/modules/engines/infrastructure/typeorm/typeorm-engine.repository'
-import { TypeOrmCriteriaConverter } from 'src/infrastructure/persistence/typeorm/typeorm-criteria-converter'
 import { EngineBuilder } from '../../modules/engines/domain/engine.builder'
 import { EngineMother } from '../../modules/engines/domain/engine.mother'
-import { queryRunner } from '../../jest.setup.integration'
+import { moduleFixture } from '../../jest.setup.integration'
 
 let repository: TypeOrmEngineRepository
 
 beforeEach(async () => {
-  repository = new TypeOrmEngineRepository(queryRunner.manager.connection, new TypeOrmCriteriaConverter())
+  repository = moduleFixture.get<TypeOrmEngineRepository>(TypeOrmEngineRepository)
 })
 
 describe('EngineRepository (integration tests)', () => {

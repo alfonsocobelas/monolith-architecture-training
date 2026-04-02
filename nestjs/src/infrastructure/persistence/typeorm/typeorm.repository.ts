@@ -1,19 +1,20 @@
 import { Injectable } from '@nestjs/common'
-import { DataSource, EntityTarget, Repository, ObjectLiteral, EntityManager } from 'typeorm'
+import { EntityTarget, Repository, ObjectLiteral, EntityManager } from 'typeorm'
 import { Criteria } from 'src/modules/shared/domain/query/criteria'
 import { TypeOrmCriteriaConverter } from './typeorm-criteria-converter'
+import { TypeOrmTransactionManager } from './typeorm-transaction-manager'
 
 @Injectable()
 export abstract class TypeOrmRepository<EntityType extends ObjectLiteral> {
   constructor(
-    private readonly dataSource: DataSource,
+    private readonly transactionManager: TypeOrmTransactionManager,
     private readonly criteriaConverter: TypeOrmCriteriaConverter
   ) {}
 
   protected abstract entitySchema(): EntityTarget<EntityType>
 
   protected client(): EntityManager {
-    return this.dataSource.manager
+    return this.transactionManager.getEntityManager()
   }
 
   protected repository(): Repository<EntityType> {

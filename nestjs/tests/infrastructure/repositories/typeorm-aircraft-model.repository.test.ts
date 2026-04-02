@@ -1,13 +1,12 @@
 import { v7 as uuidv7 } from 'uuid'
 import { TypeOrmAircraftModelRepository } from 'src/modules/aircraft-models/infrastructure/typeorm/typeorm-aircraft-model.repository'
-import { TypeOrmCriteriaConverter } from 'src/infrastructure/persistence/typeorm/typeorm-criteria-converter'
 import { AircraftModelMother } from '../../modules/aircraft-models/domain/aircraft-model.mother'
-import { queryRunner } from '../../jest.setup.integration'
+import { moduleFixture } from '../../jest.setup.integration'
 
 let repository: TypeOrmAircraftModelRepository
 
-beforeEach(async () => {
-  repository = new TypeOrmAircraftModelRepository(queryRunner.manager.connection, new TypeOrmCriteriaConverter())
+beforeAll(() => {
+  repository = moduleFixture.get<TypeOrmAircraftModelRepository>(TypeOrmAircraftModelRepository)
 })
 
 describe('AircraftModelRepository (integration tests)', () => {

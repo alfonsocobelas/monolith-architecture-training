@@ -2,18 +2,19 @@ import { v7 as uuidv7 } from 'uuid'
 import { TypeOrmAircraftRepository } from 'src/modules/aircrafts/infrastructure/typeorm/typeorm-aircraft.repository'
 import { AircraftsOfModelSpecification } from 'src/modules/aircrafts/domain/specifications/aircrafts-of-model.specification'
 import { AircraftWithTailNumberSpecification } from 'src/modules/aircrafts/domain/specifications/aircraft-with-tail-number.specification'
-import { TypeOrmCriteriaConverter } from 'src/infrastructure/persistence/typeorm/typeorm-criteria-converter'
 import { AircraftBuilder } from '../../modules/aircrafts/domain/aircraft.builder'
-import { queryRunner } from '../../jest.setup.integration'
+import { moduleFixture } from '../../jest.setup.integration'
 import { setupAircraftModel } from './helpers/setup-aircraft-model'
 
 let repository: TypeOrmAircraftRepository
 let modelId: string
 
+beforeAll(() => {
+  repository = moduleFixture.get<TypeOrmAircraftRepository>(TypeOrmAircraftRepository)
+})
+
 beforeEach(async () => {
-  const connection = queryRunner.manager.connection
-  modelId = await setupAircraftModel(connection)
-  repository = new TypeOrmAircraftRepository(connection, new TypeOrmCriteriaConverter())
+  modelId = await setupAircraftModel()
 })
 
 describe('AircraftRepository (integration tests)', () => {

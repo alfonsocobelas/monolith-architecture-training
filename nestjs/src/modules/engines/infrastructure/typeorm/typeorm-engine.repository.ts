@@ -1,9 +1,10 @@
-import { DataSource, EntityTarget } from 'typeorm'
+import { EntityTarget } from 'typeorm'
 import { Injectable } from '@nestjs/common'
 import { Nullable } from 'src/common/nullable'
 import { Criteria } from 'src/modules/shared/domain/query/criteria'
 import { TypeOrmRepository } from 'src/infrastructure/persistence/typeorm/typeorm.repository'
 import { TypeOrmCriteriaConverter } from 'src/infrastructure/persistence/typeorm/typeorm-criteria-converter'
+import { TypeOrmTransactionManager } from 'src/infrastructure/persistence/typeorm/typeorm-transaction-manager'
 import { EngineMapper } from './typeorm-engine.mapper'
 import { EngineEntity } from './typeorm-engine.entity'
 import { EngineRepository } from '../../domain/engine.repository'
@@ -14,8 +15,8 @@ export class TypeOrmEngineRepository
   extends TypeOrmRepository<EngineEntity>
   implements EngineRepository
 {
-  constructor(dataSource: DataSource, converter: TypeOrmCriteriaConverter) {
-    super(dataSource, converter)
+  constructor(txManager: TypeOrmTransactionManager, converter: TypeOrmCriteriaConverter) {
+    super(txManager, converter)
   }
 
   protected entitySchema(): EntityTarget<EngineEntity> {

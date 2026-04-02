@@ -4,13 +4,15 @@ import { AircraftRepository } from 'src/modules/aircrafts/domain/aircraft.reposi
 import { AircraftModelRepository } from 'src/modules/aircraft-models/domain/aircraft-model.repository'
 import { EngineRepository } from 'src/modules/engines/domain/engine.repository'
 import { InstallEngineInAircraftInput } from './install-engine-in-aircraft-input.dto'
+import { TransactionManager } from 'src/modules/shared/domain/persistence/transaction-manager'
 
 @Injectable()
 export class InstallEngineInAircraftUsecase {
   constructor(
     private readonly engineRepository: EngineRepository,
     private readonly aircraftRepository: AircraftRepository,
-    private readonly aircraftModelRepository: AircraftModelRepository
+    private readonly aircraftModelRepository: AircraftModelRepository,
+    private readonly txManager: TransactionManager
   ) {}
 
   async invoke(input: InstallEngineInAircraftInput): Promise<void> {
@@ -36,9 +38,9 @@ export class InstallEngineInAircraftUsecase {
     aircraft.installEngine(input.engineId, model.numEngines)
     engine.installInAircraft(input.aircraftId)
 
-    await Promise.all([
-      this.aircraftRepository.save(aircraft),
-      this.engineRepository.save(engine)
-    ])
+    await this.txManager.runInTransaction(async () => {
+      await this.aircraftRepository.save(aircraft)
+      await this.engineRepository.save(engine)
+    })
   }
 }

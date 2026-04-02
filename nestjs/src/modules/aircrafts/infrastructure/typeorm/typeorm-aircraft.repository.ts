@@ -1,9 +1,10 @@
-import { DataSource, EntityTarget, In } from 'typeorm'
+import { EntityTarget, In } from 'typeorm'
 import { Injectable } from '@nestjs/common'
 import { Nullable } from 'src/common/nullable'
 import { Criteria } from 'src/modules/shared/domain/query/criteria'
 import { TypeOrmRepository } from 'src/infrastructure/persistence/typeorm/typeorm.repository'
 import { TypeOrmCriteriaConverter } from 'src/infrastructure/persistence/typeorm/typeorm-criteria-converter'
+import { TypeOrmTransactionManager } from 'src/infrastructure/persistence/typeorm/typeorm-transaction-manager'
 import { AircraftEntity } from './typeorm-aircraft.entity'
 import { AircraftMapper } from './typeorm-aircraft.mapper'
 import { Aircraft } from '../../domain/aircraft'
@@ -22,8 +23,8 @@ export class TypeOrmAircraftRepository
   extends TypeOrmRepository<AircraftEntity>
   implements AircraftRepository
 {
-  constructor(dataSource: DataSource, converter: TypeOrmCriteriaConverter) {
-    super(dataSource, converter)
+  constructor(txManager: TypeOrmTransactionManager, converter: TypeOrmCriteriaConverter) {
+    super(txManager, converter)
   }
 
   protected entitySchema(): EntityTarget<AircraftEntity> {

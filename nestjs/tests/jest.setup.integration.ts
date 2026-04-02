@@ -6,6 +6,7 @@ import { EnvironmentArranger } from './infrastructure/arranger/environment-arran
 import { PersistenceModule } from 'src/infrastructure/persistence/persistence.module'
 import { TypeOrmEnvironmentArranger } from './infrastructure/arranger/typeorm/typeorm-environment-arranger'
 import { CoreConfigModule } from 'src/infrastructure/config/config.module'
+import { TestRepositoriesModule } from './infrastructure/test-repositories.module'
 
 let moduleFixture: TestingModule
 let environmentArranger: EnvironmentArranger
@@ -19,12 +20,11 @@ let queryRunner: QueryRunner
   const seedManager = GlobalSeed.getInstance()
   const masterSeed = seedManager.getMasterSeed()
   faker.seed(masterSeed)
-  // console.log(`\n[JEST INTEGRATION] 🎲 Master Seed: ${masterSeed}\n`)
 })()
 
 beforeAll(async () => {
   moduleFixture = await Test.createTestingModule({
-    imports: [PersistenceModule, CoreConfigModule],
+    imports: [PersistenceModule, CoreConfigModule, TestRepositoriesModule],
     providers: [{ provide: EnvironmentArranger, useClass: TypeOrmEnvironmentArranger }]
   }).compile()
 
@@ -40,6 +40,12 @@ afterAll(async () => {
     await environmentArranger.close()
   } else {
     console.warn('[JEST INTEGRATION] ⚠️ No environment arranger available to close.')
+  }
+
+  if (dataSource && dataSource.isInitialized) {
+    await dataSource.destroy()
+  } else {
+    console.warn('[JEST INTEGRATION] ⚠️ No data source available to destroy.')
   }
 
   if (moduleFixture) {
@@ -77,4 +83,4 @@ afterEach(async () => {
   }
 })
 
-export { environmentArranger, dataSource, queryRunner }
+export { environmentArranger, dataSource, queryRunner, moduleFixture }

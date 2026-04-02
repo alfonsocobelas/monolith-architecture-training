@@ -1,18 +1,19 @@
 import { v7 as uuidv7 } from 'uuid'
 import { TypeOrmFleetRepository } from 'src/modules/fleets/infrastructure/typeorm/typeorm-fleet.repository'
 import { FleetWithNameSpecification } from 'src/modules/fleets/domain/specifications/fleet-with-name.specification'
-import { TypeOrmCriteriaConverter } from 'src/infrastructure/persistence/typeorm/typeorm-criteria-converter'
 import { FleetBuilder } from '../../modules/fleets/domain/fleet.builder'
-import { queryRunner } from '../../jest.setup.integration'
+import { moduleFixture } from '../../jest.setup.integration'
 import { setupCompany } from './helpers/setup-company'
 
 let repository: TypeOrmFleetRepository
 let companyId: string
 
+beforeAll(() => {
+  repository = moduleFixture.get<TypeOrmFleetRepository>(TypeOrmFleetRepository)
+})
+
 beforeEach(async () => {
-  const connection = queryRunner.manager.connection
-  companyId = await setupCompany(connection)
-  repository = new TypeOrmFleetRepository(connection, new TypeOrmCriteriaConverter())
+  companyId = await setupCompany()
 })
 
 describe('FleetRepository (integration tests)', () => {

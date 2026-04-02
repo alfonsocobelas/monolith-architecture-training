@@ -1,13 +1,12 @@
 import { v7 as uuidv7 } from 'uuid'
 import { TypeOrmIssueRepository } from 'src/modules/issues/infrastructure/typeorm/typeorm-issue.repository'
-import { TypeOrmCriteriaConverter } from 'src/infrastructure/persistence/typeorm/typeorm-criteria-converter'
 import { IssueMother } from '../../modules/issues/domain/issue.mother'
-import { queryRunner } from '../../jest.setup.integration'
+import { moduleFixture } from '../../jest.setup.integration'
 
 let repository: TypeOrmIssueRepository
 
 beforeEach(async () => {
-  repository = new TypeOrmIssueRepository(queryRunner.manager.connection, new TypeOrmCriteriaConverter())
+  repository = moduleFixture.get<TypeOrmIssueRepository>(TypeOrmIssueRepository)
 })
 
 describe('IssueRepository (integration tests)', () => {

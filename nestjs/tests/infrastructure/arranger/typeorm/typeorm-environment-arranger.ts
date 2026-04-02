@@ -23,7 +23,6 @@ export class TypeOrmEnvironmentArranger extends EnvironmentArranger {
 
   async close(): Promise<void> {
     await this.cleanDatabase()
-    return this.dataSource.destroy()
   }
 
   async insertOne<T>(entity: { new (): T }, data: Partial<T>): Promise<void> {

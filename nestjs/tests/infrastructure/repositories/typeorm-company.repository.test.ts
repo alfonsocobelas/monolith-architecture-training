@@ -1,14 +1,13 @@
 import { v7 as uuidv7 } from 'uuid'
 import { TypeOrmCompanyRepository } from 'src/modules/companies/infrastructure/typeorm/typeorm-company.repository'
-import { TypeOrmCriteriaConverter } from 'src/infrastructure/persistence/typeorm/typeorm-criteria-converter'
 import { CompanyMother } from '../../modules/companies/domain/company.mother'
 import { CompanyBuilder } from '../../modules/companies/domain/company.builder'
-import { queryRunner } from '../../jest.setup.integration'
+import { moduleFixture } from '../../jest.setup.integration'
 
 let repository: TypeOrmCompanyRepository
 
 beforeEach(async () => {
-  repository = new TypeOrmCompanyRepository(queryRunner.manager.connection, new TypeOrmCriteriaConverter())
+  repository = moduleFixture.get<TypeOrmCompanyRepository>(TypeOrmCompanyRepository)
 })
 
 describe('CompanyRepository (integration tests)', () => {

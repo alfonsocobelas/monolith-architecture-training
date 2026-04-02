@@ -2,6 +2,7 @@ import { Global, Module } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { TypeOrmCriteriaConverter } from './typeorm/typeorm-criteria-converter'
+import { TypeOrmTransactionManager } from './typeorm/typeorm-transaction-manager'
 
 @Global()
 @Module({
@@ -11,7 +12,14 @@ import { TypeOrmCriteriaConverter } from './typeorm/typeorm-criteria-converter'
       useFactory: (config: ConfigService) => ({ ...config.get('typeorm') })
     })
   ],
-  providers: [TypeOrmCriteriaConverter],
-  exports: [TypeOrmModule, TypeOrmCriteriaConverter]
+  providers: [
+    TypeOrmCriteriaConverter,
+    TypeOrmTransactionManager
+  ],
+  exports: [
+    TypeOrmModule,
+    TypeOrmCriteriaConverter,
+    TypeOrmTransactionManager
+  ]
 })
 export class PersistenceModule {}

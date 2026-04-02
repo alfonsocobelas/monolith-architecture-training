@@ -1,9 +1,10 @@
-import { DataSource, EntityTarget } from 'typeorm'
+import { EntityTarget } from 'typeorm'
 import { Injectable } from '@nestjs/common'
 import { Nullable } from 'src/common/nullable'
 import { Criteria } from 'src/modules/shared/domain/query/criteria'
 import { TypeOrmRepository } from 'src/infrastructure/persistence/typeorm/typeorm.repository'
 import { TypeOrmCriteriaConverter } from 'src/infrastructure/persistence/typeorm/typeorm-criteria-converter'
+import { TypeOrmTransactionManager } from 'src/infrastructure/persistence/typeorm/typeorm-transaction-manager'
 import { IssueEntity } from './typeorm-issue.entity'
 import { IssueMapper } from './typeorm-issue.mapper'
 import { IssueRepository } from '../../domain/issue.repository'
@@ -14,8 +15,8 @@ export class TypeOrmIssueRepository
   extends TypeOrmRepository<IssueEntity>
   implements IssueRepository
 {
-  constructor(dataSource: DataSource, converter: TypeOrmCriteriaConverter) {
-    super(dataSource, converter)
+  constructor(txManager: TypeOrmTransactionManager, converter: TypeOrmCriteriaConverter) {
+    super(txManager, converter)
   }
 
   protected entitySchema(): EntityTarget<IssueEntity> {

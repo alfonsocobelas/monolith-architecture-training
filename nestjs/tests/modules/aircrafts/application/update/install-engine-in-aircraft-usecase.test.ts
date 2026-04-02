@@ -8,18 +8,22 @@ import { AircraftMother } from '../../domain/aircraft.mother'
 import { EngineMother } from '../../../engines/domain/engine.mother'
 import { AircraftBuilder } from '../../domain/aircraft.builder'
 import { AircraftModelBuilder } from '../../../aircraft-models/domain/aircraft-model.builder'
+import { TransactionManagerMock } from '../../../shared/mocks/transaction-manager.mock'
 
 describe('InstallEngineInAircraftUseCase (unit tests)', () => {
   let aircraftRepository: AircraftRepositoryMock
   let engineRepository: EngineRepositoryMock
   let modelRepository: AircraftModelRepositoryMock
+  let txManager: TransactionManagerMock
   let useCase: InstallEngineInAircraftUsecase
 
   beforeEach(() => {
     aircraftRepository = new AircraftRepositoryMock()
     engineRepository = new EngineRepositoryMock()
     modelRepository = new AircraftModelRepositoryMock()
-    useCase = new InstallEngineInAircraftUsecase(engineRepository, aircraftRepository, modelRepository)
+    txManager = new TransactionManagerMock()
+    useCase = new InstallEngineInAircraftUsecase(engineRepository, aircraftRepository, modelRepository, txManager)
+    txManager.whenRunInTransactionSuccess()
   })
 
   it('should install an engine in an aircraft', async () => {

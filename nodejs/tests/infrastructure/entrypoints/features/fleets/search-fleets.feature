@@ -1,4 +1,3 @@
-@only
 Feature: Search fleets
   As a fleet manager
   I want to buscar y paginar fleets con filtros y órdenes

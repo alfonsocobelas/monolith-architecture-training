@@ -1,4 +1,3 @@
-@only
 Feature: Get aircraft technical sheet
   As a maintenance supervisor
   I want to see the full technical details of an aircraft

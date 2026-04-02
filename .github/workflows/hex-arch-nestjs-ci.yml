@@ -118,3 +118,38 @@ jobs:
       - name: Run integration tests
         run: npm run test:integration
         working-directory: nestjs
+
+  acceptance-tests:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22.x, 24.x]
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: sheriff
+          POSTGRES_PASSWORD: sup3rs3cr3t
+          POSTGRES_DB: monolith-arch-nestjs-test
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd="pg_isready -U sheriff"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Restore node_modules cache
+        uses: actions/cache@v3
+        with:
+          path: nestjs/node_modules
+          key: ${{ runner.os }}-modules-${{ hashFiles('nestjs/package-lock.json') }}
+      - name: Run acceptance tests
+        run: npm run test:acceptance
+        working-directory: nestjs

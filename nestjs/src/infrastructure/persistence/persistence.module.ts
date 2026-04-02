@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { TypeOrmCriteriaConverter } from './typeorm/typeorm-criteria-converter'
 import { TypeOrmTransactionManager } from './typeorm/typeorm-transaction-manager'
+import { TransactionManager } from 'src/modules/shared/domain/persistence/transaction-manager'
 
 @Global()
 @Module({
@@ -14,12 +15,17 @@ import { TypeOrmTransactionManager } from './typeorm/typeorm-transaction-manager
   ],
   providers: [
     TypeOrmCriteriaConverter,
-    TypeOrmTransactionManager
+    TypeOrmTransactionManager,
+    {
+      provide: TransactionManager,
+      useExisting: TypeOrmTransactionManager
+    }
   ],
   exports: [
     TypeOrmModule,
     TypeOrmCriteriaConverter,
-    TypeOrmTransactionManager
+    TypeOrmTransactionManager,
+    TransactionManager
   ]
 })
 export class PersistenceModule {}
